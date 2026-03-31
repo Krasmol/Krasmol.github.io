@@ -39,7 +39,7 @@
 
 Мой персональный сайт в стиле DarkCore:
 
-**[https://krasmol.github.io/portfolio](https://krasmol.github.io)**
+**[https://krasmol.github.io](https://krasmol.github.io)**
 
 **Особенности сайта:**
 - Фоновое видео чёрной дыры в ч/б стиле
@@ -53,8 +53,6 @@
 ## Контакты
 
 - **GitHub:** [github.com/krasmol](https://github.com/krasmol)
-- **Email:** arseniy@example.com
-- **Telegram:** @krasmol
 
 ---
 
