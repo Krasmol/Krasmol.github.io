@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Арсений Дьяконов | Портфолио разработчика</title>
+    <title>Арсений Дьяконов | DarkCore Portfolio</title>
     <style>
         * {
             margin: 0;
@@ -13,44 +13,162 @@
 
         body {
             font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
-            padding: 2rem 1rem;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Градиентные акценты */
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        /* ========== ВИДЕО-СЛАЙДЕР ========== */
+        .hero-slider {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 3rem;
         }
 
-        /* Карточка профиля */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.4);
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 3;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 4;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .hero-content .badge {
+            display: inline-block;
+            border: 1px solid #ffffff;
+            padding: 0.5rem 1.5rem;
+            margin: 0.5rem;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .hero-content .badge:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: scale(1.05);
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 5;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dot.active {
+            background: #ffffff;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* ========== ОСНОВНОЙ КОНТЕНТ ========== */
         .profile-card {
-            background: #111111;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 2rem;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
             padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .profile-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(102, 126, 234, 0.5);
+            border-color: #333333;
+            transform: translateY(-2px);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            border-left: 3px solid #ffffff;
+            padding-left: 1rem;
         }
 
         .badge-container {
@@ -61,85 +179,80 @@
         }
 
         .tech-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            color: #ffffff;
             padding: 0.5rem 1.2rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.2s;
         }
 
         .tech-badge:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
         .contacts {
-            background: #0a0a0a;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            background: #050505;
+            border: 1px solid #1a1a1a;
             padding: 1.2rem;
-            border-radius: 1rem;
             margin-top: 1rem;
         }
 
         .contacts p {
             margin: 0.5rem 0;
+            color: #aaaaaa;
         }
 
         .github-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: #e0e0e0;
+            color: #ffffff;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .github-link:hover {
-            color: #667eea;
+            color: #888888;
         }
 
-        /* Секция проектов */
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
+        /* Проекты */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
+            margin-top: 1rem;
         }
 
         .project-card {
-            background: #111111;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 1rem;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
             padding: 1.5rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .project-card:hover {
+            border-color: #333333;
             transform: translateY(-5px);
-            border-color: #667eea;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         .project-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
             margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
         }
 
         .project-description {
-            color: #a0a0a0;
+            color: #aaaaaa;
             line-height: 1.6;
             margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
 
         .project-tech {
@@ -150,60 +263,36 @@
         }
 
         .project-tech span {
-            background: rgba(102, 126, 234, 0.2);
-            color: #a78bfa;
+            background: #111111;
+            border: 1px solid #2a2a2a;
+            color: #cccccc;
             padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
         }
 
         .project-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: transparent;
+            border: 1px solid #333333;
+            color: #ffffff;
             padding: 0.6rem 1.2rem;
-            border-radius: 0.5rem;
             text-decoration: none;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: opacity 0.3s, transform 0.2s;
+            letter-spacing: 1px;
+            transition: all 0.3s;
         }
 
         .project-link:hover {
-            opacity: 0.9;
-            transform: translateX(5px);
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
-        /* Дополнительные элементы */
-        .subtitle {
-            color: #a0a0a0;
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .profile-card {
-                padding: 1.5rem;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Анимация */
+        /* Анимации */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -215,138 +304,287 @@
             }
         }
 
-        .profile-card, .project-card {
-            animation: fadeInUp 0.6s ease-out forwards;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
-        /* Стили для скроллбара */
+        .profile-card, .project-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Скроллбар */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #0a0a0a;
+            background: #000000;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 5px;
+            background: #2a2a2a;
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #764ba2;
+            background: #444444;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .profile-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Футер */
+        .footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 3rem;
+            border-top: 1px solid #1a1a1a;
+            color: #666666;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
+    <!-- ВИДЕО-СЛАЙДЕР -->
+    <div class="hero-slider">
+        <div class="slider-container">
+            <!-- Слайд 1 -->
+            <div class="slide active" data-slide="0">
+                <video autoplay muted loop playsinline>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-programming-code-on-a-dark-screen-24898-large.mp4" type="video/mp4">
+                </video>
+                <div class="slide-overlay"></div>
+            </div>
+            <!-- Слайд 2 -->
+            <div class="slide" data-slide="1">
+                <video autoplay muted loop playsinline>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-typing-code-on-computer-keyboard-24896-large.mp4" type="video/mp4">
+                </video>
+                <div class="slide-overlay"></div>
+            </div>
+            <!-- Слайд 3 -->
+            <div class="slide" data-slide="2">
+                <video autoplay muted loop playsinline>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-code-on-a-dark-screen-24900-large.mp4" type="video/mp4">
+                </video>
+                <div class="slide-overlay"></div>
+            </div>
+            
+            <div class="hero-content">
+                <h1>ДЬЯКОНОВ<br>АРСЕНИЙ</h1>
+                <div class="subtitle">DEVELOPER // PROGRAMMER // CREATOR</div>
+                <div>
+                    <span class="badge">PYTHON</span>
+                    <span class="badge">C#</span>
+                    <span class="badge">C++</span>
+                    <span class="badge">FLASK</span>
+                    <span class="badge">SQL</span>
+                </div>
+            </div>
+            
+            <div class="slider-controls">
+                <div class="slider-dot active" data-slide="0"></div>
+                <div class="slider-dot" data-slide="1"></div>
+                <div class="slider-dot" data-slide="2"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Профиль -->
         <div class="profile-card">
-            <h1>👋 Привет, я <span class="gradient-text">Дьяконов Арсений</span></h1>
-            <p class="subtitle">
-                Начинающий разработчик, увлечённый созданием веб-приложений и десктопных решений
+            <h2># О СЕБЕ</h2>
+            <p style="color: #cccccc; line-height: 1.8; margin-bottom: 1rem;">
+                Начинающий программист, увлечённый созданием эффективных и эстетичных решений. 
+                Постоянно развиваюсь и изучаю новые технологии.
             </p>
             
             <div class="badge-container">
-                <span class="tech-badge">Python</span>
-                <span class="tech-badge">Flask</span>
+                <span class="tech-badge">PYTHON</span>
                 <span class="tech-badge">C</span>
                 <span class="tech-badge">C#</span>
                 <span class="tech-badge">C++</span>
                 <span class="tech-badge">SQL</span>
                 <span class="tech-badge">1C</span>
-                <span class="tech-badge">Pascal</span>
+                <span class="tech-badge">PASCAL</span>
                 <span class="tech-badge">HTML/CSS</span>
+                <span class="tech-badge">FLASK</span>
             </div>
             
             <div class="contacts">
-                <p>📫 <strong>Контакты:</strong></p>
+                <p style="color: #ffffff;">▸ КОНТАКТЫ</p>
                 <p>
                     <a href="https://github.com/krasmol" target="_blank" class="github-link">
-                        <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+                        <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor">
                             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
                         </svg>
-                        github.com/krasmol
+                        GITHUB.COM/KRASMOL
                     </a>
                 </p>
             </div>
         </div>
 
         <!-- Проекты -->
-        <h2 class="section-title"><span class="gradient-text">🚀 Мои проекты</span></h2>
+        <h2># ПРОЕКТЫ</h2>
         <div class="projects-grid">
-            <!-- Проект 1: Видео-хостинг -->
             <div class="project-card">
-                <div class="project-title">🎬 Видео-хостинг</div>
+                <div class="project-title">▸ VIDEOHOSTING</div>
                 <div class="project-description">
-                    Веб-приложение для загрузки и просмотра видео. Реализована аутентификация, 
-                    загрузка файлов, система комментариев и адаптивный интерфейс.
+                    Веб-приложение для загрузки и просмотра видео. Аутентификация, комментарии, адаптивный интерфейс.
                 </div>
                 <div class="project-tech">
-                    <span>Python</span>
-                    <span>Flask</span>
-                    <span>SQLite</span>
-                    <span>HTML/CSS</span>
+                    <span>PYTHON</span>
+                    <span>FLASK</span>
+                    <span>SQLITE</span>
                 </div>
                 <a href="https://github.com/Krasmol/videohosting" target="_blank" class="project-link">
-                    📂 Посмотреть на GitHub
+                    VIEW ON GITHUB →
                 </a>
             </div>
 
-            <!-- Проект 2: Аренда авто -->
             <div class="project-card">
-                <div class="project-title">🚗 Аренда авто</div>
+                <div class="project-title">▸ CAR RENTAL</div>
                 <div class="project-description">
-                    Десктопное приложение для управления автопарком и арендой автомобилей. 
-                    Включает учёт клиентов, бронирование, расчёт стоимости и генерацию отчётов.
+                    Десктопное приложение для управления автопарком. Учёт клиентов, бронирование, генерация отчётов.
                 </div>
                 <div class="project-tech">
                     <span>C#</span>
                     <span>.NET</span>
-                    <span>Windows Forms</span>
-                    <span>SQL Server</span>
+                    <span>SQL</span>
                 </div>
                 <a href="https://github.com/Krasmol/car-rental-service" target="_blank" class="project-link">
-                    📂 Посмотреть на GitHub
+                    VIEW ON GITHUB →
                 </a>
             </div>
 
-            <!-- Проект 3: Платформа для фрилансеров -->
             <div class="project-card">
-                <div class="project-title">💼 Платформа для фрилансеров</div>
+                <div class="project-title">▸ FREELANCE PLATFORM</div>
                 <div class="project-description">
-                    Сайт для поиска исполнителей и заказов. Реализованы профили пользователей, 
-                    система откликов на проекты, рейтинг и защищённые транзакции.
+                    Сайт для поиска исполнителей. Профили пользователей, отклики, рейтинговая система.
                 </div>
                 <div class="project-tech">
-                    <span>Python</span>
-                    <span>Flask</span>
-                    <span>PostgreSQL</span>
-                    <span>Bootstrap</span>
+                    <span>PYTHON</span>
+                    <span>FLASK</span>
+                    <span>POSTGRESQL</span>
                 </div>
                 <a href="https://github.com/Krasmol/platform_for_freelancers" target="_blank" class="project-link">
-                    📂 Посмотреть на GitHub
+                    VIEW ON GITHUB →
                 </a>
             </div>
 
-            <!-- Проект 4: Генератор паролей -->
             <div class="project-card">
-                <div class="project-title">🔐 Менеджер паролей</div>
+                <div class="project-title">▸ PASSWORD MANAGER</div>
                 <div class="project-description">
-                    Веб-приложение для генерации надёжных паролей и безопасного хранения 
-                    учётных записей с шифрованием данных пользователя.
+                    Генерация надёжных паролей и безопасное хранение учётных записей с шифрованием.
                 </div>
                 <div class="project-tech">
-                    <span>Python</span>
-                    <span>Flask</span>
-                    <span>SQLAlchemy</span>
-                    <span>JavaScript</span>
+                    <span>PYTHON</span>
+                    <span>FLASK</span>
+                    <span>SQLALCHEMY</span>
                 </div>
                 <a href="https://github.com/Krasmol/web-password" target="_blank" class="project-link">
-                    📂 Посмотреть на GitHub
+                    VIEW ON GITHUB →
                 </a>
             </div>
         </div>
+
+        <div class="footer">
+            ARSENIY DIAKONOV // 2024 // DARKCORE
+        </div>
     </div>
+
+    <script>
+        // Слайдер для видео
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                    // Перезапускаем видео при переключении
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.currentTime = 0;
+                        video.play();
+                    }
+                }
+            });
+            
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active');
+                if (i === index) {
+                    dot.classList.add('active');
+                }
+            });
+            
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = currentSlide + 1;
+            if (next >= slides.length) next = 0;
+            showSlide(next);
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(nextSlide, 8000);
+        }
+
+        function stopAutoSlide() {
+            if (slideInterval) clearInterval(slideInterval);
+        }
+
+        // Обработчики для точек навигации
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                stopAutoSlide();
+                const slideIndex = parseInt(dot.getAttribute('data-slide'));
+                showSlide(slideIndex);
+                startAutoSlide();
+            });
+        });
+
+        // Приостанавливаем автослайд при наведении на слайдер
+        const slider = document.querySelector('.hero-slider');
+        slider.addEventListener('mouseenter', stopAutoSlide);
+        slider.addEventListener('mouseleave', startAutoSlide);
+
+        // Запускаем слайдер
+        startAutoSlide();
+
+        // Останавливаем видео в неактивных слайдах для производительности
+        slides.forEach((slide, i) => {
+            const video = slide.querySelector('video');
+            if (video && i !== 0) {
+                video.pause();
+            }
+        });
+    </script>
 </body>
 </html>
