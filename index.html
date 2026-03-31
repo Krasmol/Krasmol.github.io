@@ -14,17 +14,44 @@
 
         body {
             font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            background: #000000;
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
+        /* ========== ФОН - ВИДЕО ЧЁРНОЙ ДЫРЫ ========== */
+        .blackhole-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .blackhole-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.6) contrast(1.2);
+        }
+
+        .blackhole-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%);
+            z-index: -1;
+        }
+
         /* ========== КАСТОМНЫЙ КУРСОР ========== */
         .cursor {
             position: fixed;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 2px solid #ffffff;
             border-radius: 50%;
             pointer-events: none;
@@ -35,73 +62,37 @@
 
         .cursor-trail {
             position: fixed;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #ffffff;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9998;
             opacity: 0.6;
-            transition: opacity 0.2s;
         }
 
-        /* ========== ВИДЕО-СЛАЙДЕР ========== */
-        .hero-slider {
+        /* ========== ОСНОВНОЙ КОНТЕНТ ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             position: relative;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;
-            margin-bottom: 3rem;
-        }
-
-        .slider-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            z-index: 1;
-        }
-
-        .slide.active {
-            opacity: 1;
             z-index: 2;
         }
 
-        .slide video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) brightness(0.35) contrast(1.2);
-        }
-
-        .slide-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
-            z-index: 3;
+        /* Хедер */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
         }
 
         .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 4;
-            width: 90%;
             max-width: 800px;
+            padding: 2rem;
         }
 
         .hero-content h1 {
@@ -124,7 +115,7 @@
             animation-fill-mode: forwards;
         }
 
-        .hero-content .badge {
+        .hero-badge {
             display: inline-block;
             border: 1px solid #ffffff;
             padding: 0.5rem 1.5rem;
@@ -138,84 +129,24 @@
             background: transparent;
         }
 
-        .hero-content .badge:hover {
+        .hero-badge:hover {
             background: #ffffff;
             color: #000000;
             transform: scale(1.05);
-            cursor: pointer;
         }
 
-        .slider-controls {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1rem;
-            z-index: 5;
-        }
-
-        .slider-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .slider-dot.active {
-            background: #ffffff;
-            width: 30px;
-            border-radius: 5px;
-        }
-
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 1rem;
-            cursor: pointer;
-            z-index: 5;
-            transition: all 0.3s;
-            font-size: 1.5rem;
-            color: #ffffff;
-        }
-
-        .slider-arrow:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: #ffffff;
-        }
-
-        .slider-arrow.prev {
-            left: 2rem;
-        }
-
-        .slider-arrow.next {
-            right: 2rem;
-        }
-
-        /* ========== ОСНОВНОЙ КОНТЕНТ ========== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            position: relative;
-            z-index: 2;
-        }
-
+        /* Карточка профиля */
         .profile-card {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 2.5rem;
             margin-bottom: 2rem;
             transition: all 0.3s ease;
         }
 
         .profile-card:hover {
-            border-color: #333333;
+            border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-2px);
         }
 
@@ -235,8 +166,8 @@
         }
 
         .tech-badge {
-            background: #111111;
-            border: 1px solid #2a2a2a;
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: #ffffff;
             padding: 0.5rem 1.2rem;
             font-size: 0.85rem;
@@ -253,15 +184,15 @@
         }
 
         .contacts {
-            background: #050505;
-            border: 1px solid #1a1a1a;
+            background: rgba(5, 5, 5, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 1.2rem;
             margin-top: 1rem;
         }
 
         .contacts p {
             margin: 0.5rem 0;
-            color: #aaaaaa;
+            color: #cccccc;
         }
 
         .github-link {
@@ -275,7 +206,7 @@
         }
 
         .github-link:hover {
-            color: #888888;
+            color: #aaaaaa;
         }
 
         /* Проекты */
@@ -287,14 +218,15 @@
         }
 
         .project-card {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 1.5rem;
             transition: all 0.3s ease;
         }
 
         .project-card:hover {
-            border-color: #333333;
+            border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-5px);
         }
 
@@ -306,7 +238,7 @@
         }
 
         .project-description {
-            color: #aaaaaa;
+            color: #cccccc;
             line-height: 1.6;
             margin-bottom: 1rem;
             font-size: 0.9rem;
@@ -320,9 +252,9 @@
         }
 
         .project-tech span {
-            background: #111111;
-            border: 1px solid #2a2a2a;
-            color: #cccccc;
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #dddddd;
             padding: 0.25rem 0.75rem;
             font-size: 0.75rem;
             letter-spacing: 0.5px;
@@ -333,7 +265,7 @@
             align-items: center;
             gap: 0.5rem;
             background: transparent;
-            border: 1px solid #333333;
+            border: 1px solid rgba(255, 255, 255, 0.5);
             color: #ffffff;
             padding: 0.6rem 1.2rem;
             text-decoration: none;
@@ -385,12 +317,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+            background: #333333;
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #444444;
+            background: #555555;
         }
 
         /* Адаптивность */
@@ -411,19 +343,6 @@
             .profile-card {
                 padding: 1.5rem;
             }
-            
-            .slider-arrow {
-                padding: 0.5rem;
-                font-size: 1rem;
-            }
-            
-            .slider-arrow.prev {
-                left: 0.5rem;
-            }
-            
-            .slider-arrow.next {
-                right: 0.5rem;
-            }
         }
 
         /* Футер */
@@ -431,74 +350,41 @@
             text-align: center;
             padding: 3rem 1rem;
             margin-top: 3rem;
-            border-top: 1px solid #1a1a1a;
-            color: #666666;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #888888;
             font-size: 0.8rem;
             letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
+    <!-- ФОН - ВИДЕО ЧЁРНОЙ ДЫРЫ -->
+    <div class="blackhole-bg">
+        <video autoplay muted loop playsinline>
+            <source src="https://cdn.pixabay.com/video/2022/09/25/133311-757655265_large.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="blackhole-overlay"></div>
+
     <!-- КАСТОМНЫЙ КУРСОР -->
     <div class="cursor"></div>
-    
-    <!-- ВИДЕО-СЛАЙДЕР -->
-    <div class="hero-slider">
-        <div class="slider-container">
-            <!-- Слайд 1 - Космическая тематика -->
-            <div class="slide active" data-slide="0">
-                <video autoplay muted loop playsinline>
-                    <source src="https://cdn.pixabay.com/video/2023/07/05/171552-841804715_large.mp4" type="video/mp4">
-                </video>
-                <div class="slide-overlay"></div>
-            </div>
-            <!-- Слайд 2 - Цифровой поток -->
-            <div class="slide" data-slide="1">
-                <video autoplay muted loop playsinline>
-                    <source src="https://cdn.pixabay.com/video/2021/09/21/90439-607837171_large.mp4" type="video/mp4">
-                </video>
-                <div class="slide-overlay"></div>
-            </div>
-            <!-- Слайд 3 - Абстрактная линия -->
-            <div class="slide" data-slide="2">
-                <video autoplay muted loop playsinline>
-                    <source src="https://cdn.pixabay.com/video/2022/03/14/111030-689614704_large.mp4" type="video/mp4">
-                </video>
-                <div class="slide-overlay"></div>
-            </div>
-            <!-- Слайд 4 - Технологичный фон -->
-            <div class="slide" data-slide="3">
-                <video autoplay muted loop playsinline>
-                    <source src="https://cdn.pixabay.com/video/2020/10/23/52739-473294857_large.mp4" type="video/mp4">
-                </video>
-                <div class="slide-overlay"></div>
-            </div>
-            
+
+    <div class="container">
+        <!-- Хедер -->
+        <div class="hero">
             <div class="hero-content">
                 <h1>ДЬЯКОНОВ<br>АРСЕНИЙ</h1>
                 <div class="subtitle">DEVELOPER // PROGRAMMER // CREATOR</div>
                 <div>
-                    <span class="badge">PYTHON</span>
-                    <span class="badge">C#</span>
-                    <span class="badge">C++</span>
-                    <span class="badge">FLASK</span>
-                    <span class="badge">SQL</span>
+                    <span class="hero-badge">PYTHON</span>
+                    <span class="hero-badge">C#</span>
+                    <span class="hero-badge">C++</span>
+                    <span class="hero-badge">FLASK</span>
+                    <span class="hero-badge">SQL</span>
                 </div>
             </div>
-            
-            <div class="slider-arrow prev" id="prevSlide">←</div>
-            <div class="slider-arrow next" id="nextSlide">→</div>
-            
-            <div class="slider-controls">
-                <div class="slider-dot active" data-slide="0"></div>
-                <div class="slider-dot" data-slide="1"></div>
-                <div class="slider-dot" data-slide="2"></div>
-                <div class="slider-dot" data-slide="3"></div>
-            </div>
         </div>
-    </div>
 
-    <div class="container">
         <!-- Профиль -->
         <div class="profile-card">
             <h2># О СЕБЕ</h2>
@@ -597,15 +483,15 @@
         </div>
 
         <div class="footer">
-            ARSENIY DIAKONOV // 2026 // DARKCORE
+            ARSENIY DIAKONOV // 2024 // DARKCORE
         </div>
     </div>
 
     <script>
-        // ========== КАСТОМНЫЙ КУРСОР С ЛИНИЕЙ ==========
+        // ========== КАСТОМНЫЙ КУРСОР СО СЛЕДАМИ ==========
         const cursor = document.querySelector('.cursor');
         const trailElements = [];
-        const trailCount = 15;
+        const trailCount = 12;
         
         // Создаём следы
         for (let i = 0; i < trailCount; i++) {
@@ -616,34 +502,36 @@
         }
         
         let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
         
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
             
-            // Основной курсор
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
         });
         
         // Анимация следов
+        let trailPositions = [];
+        for (let i = 0; i < trailCount; i++) {
+            trailPositions.push({ x: 0, y: 0 });
+        }
+        
         function updateTrails() {
-            cursorX = mouseX;
-            cursorY = mouseY;
+            trailPositions.unshift({ x: mouseX, y: mouseY });
+            trailPositions.pop();
             
             trailElements.forEach((trail, index) => {
-                setTimeout(() => {
-                    trail.element.style.left = cursorX + 'px';
-                    trail.element.style.top = cursorY + 'px';
-                    
-                    // Эффект затухания
-                    const opacity = 0.6 - (index / trailCount) * 0.5;
+                const pos = trailPositions[index] || trailPositions[trailPositions.length - 1];
+                if (pos) {
+                    trail.element.style.left = pos.x + 'px';
+                    trail.element.style.top = pos.y + 'px';
+                    const opacity = 0.5 - (index / trailCount) * 0.4;
                     const size = 8 - (index / trailCount) * 4;
-                    trail.element.style.opacity = opacity;
-                    trail.element.style.width = size + 'px';
-                    trail.element.style.height = size + 'px';
-                }, index * 20);
+                    trail.element.style.opacity = Math.max(0.1, opacity);
+                    trail.element.style.width = Math.max(3, size) + 'px';
+                    trail.element.style.height = Math.max(3, size) + 'px';
+                }
             });
             
             requestAnimationFrame(updateTrails);
@@ -651,125 +539,25 @@
         
         updateTrails();
         
-        // Скрываем стандартный курсор на всех элементах
+        // Скрываем стандартный курсор
         const allElements = document.querySelectorAll('*');
         allElements.forEach(el => {
             el.style.cursor = 'none';
         });
         
-        // ========== ВИДЕО-СЛАЙДЕР ==========
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        const prevBtn = document.getElementById('prevSlide');
-        const nextBtn = document.getElementById('nextSlide');
-        let currentSlide = 0;
-        let slideInterval;
-        
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === index) {
-                    slide.classList.add('active');
-                    const video = slide.querySelector('video');
-                    if (video) {
-                        video.currentTime = 0;
-                        video.play().catch(e => console.log('Автовоспроизведение заблокировано'));
-                    }
-                } else {
-                    const video = slide.querySelector('video');
-                    if (video && !video.paused) {
-                        video.pause();
-                    }
-                }
-            });
-            
-            dots.forEach((dot, i) => {
-                dot.classList.remove('active');
-                if (i === index) {
-                    dot.classList.add('active');
-                }
-            });
-            
-            currentSlide = index;
-        }
-        
-        function nextSlide() {
-            let next = currentSlide + 1;
-            if (next >= slides.length) next = 0;
-            showSlide(next);
-        }
-        
-        function prevSlide() {
-            let prev = currentSlide - 1;
-            if (prev < 0) prev = slides.length - 1;
-            showSlide(prev);
-        }
-        
-        function startAutoSlide() {
-            if (slideInterval) clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 7000);
-        }
-        
-        function stopAutoSlide() {
-            if (slideInterval) clearInterval(slideInterval);
-        }
-        
-        // Обработчики для точек навигации
-        dots.forEach(dot => {
-            dot.addEventListener('click', (e) => {
-                stopAutoSlide();
-                const slideIndex = parseInt(dot.getAttribute('data-slide'));
-                showSlide(slideIndex);
-                startAutoSlide();
+        // Обработка выхода мыши за пределы окна
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+            trailElements.forEach(trail => {
+                trail.element.style.opacity = '0';
             });
         });
         
-        // Кнопки навигации
-        prevBtn.addEventListener('click', () => {
-            stopAutoSlide();
-            prevSlide();
-            startAutoSlide();
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            stopAutoSlide();
-            nextSlide();
-            startAutoSlide();
-        });
-        
-        // Приостанавливаем автослайд при наведении на слайдер
-        const slider = document.querySelector('.hero-slider');
-        slider.addEventListener('mouseenter', stopAutoSlide);
-        slider.addEventListener('mouseleave', startAutoSlide);
-        
-        // Запускаем слайдер
-        startAutoSlide();
-        
-        // Останавливаем видео в неактивных слайдах
-        slides.forEach((slide, i) => {
-            const video = slide.querySelector('video');
-            if (video && i !== 0) {
-                video.pause();
-            }
-        });
-        
-        // Обработка касаний для мобильных устройств
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        slider.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoSlide();
-        });
-        
-        slider.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchEndX < touchStartX - 50) {
-                nextSlide();
-            } else if (touchEndX > touchStartX + 50) {
-                prevSlide();
-            }
-            startAutoSlide();
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+            trailElements.forEach(trail => {
+                trail.element.style.opacity = '0.5';
+            });
         });
     </script>
 </body>
