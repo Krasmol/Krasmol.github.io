@@ -11,7 +11,7 @@ C, C#, C++, Python, SQL, 1C, Pascal, HTML.
 
 <div align="center">
   
-  [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Посмотреть%20сайт-667eea?style=for-the-badge&logo=githubpages&logoColor=white)](https://krasmol.github.io/portfolio)
+  [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Посмотреть%20сайт-667eea?style=for-the-badge&logo=githubpages&logoColor=white)](https://krasmol.github.io)
   [![GitHub](https://img.shields.io/badge/GitHub-Мой%20профиль-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/krasmol)
   
 </div>
