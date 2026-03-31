@@ -20,7 +20,7 @@
             background: #000000;
         }
 
-        .animated-bg {
+        .data-rain-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -31,126 +31,65 @@
             background: #000000;
         }
 
-        .matrix-rain {
+        .data-line {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            font-family: monospace;
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.15);
-            white-space: pre;
-            overflow: hidden;
-            pointer-events: none;
+            top: -100px;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, #ffffff, transparent);
+            opacity: 0;
+            animation: fall linear infinite;
         }
 
-        .pulse-circles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .circle {
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: pulse 8s infinite ease-out;
-        }
-
-        @keyframes pulse {
+        @keyframes fall {
             0% {
-                transform: scale(0);
+                top: -100px;
+                opacity: 0;
+            }
+            10% {
                 opacity: 0.8;
             }
+            80% {
+                opacity: 0.5;
+            }
             100% {
-                transform: scale(3);
+                top: 100%;
                 opacity: 0;
             }
         }
 
-        .grid-lines {
+        .falling-digits {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveGrid 20s linear infinite;
-        }
-
-        @keyframes moveGrid {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(50px, 50px);
-            }
-        }
-
-        .floating-dots {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
             pointer-events: none;
         }
 
-        .dot {
+        .digit {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: floatDot 30s linear infinite;
+            white-space: pre;
+            animation: fallDigit linear infinite;
         }
 
-        @keyframes floatDot {
+        @keyframes fallDigit {
             0% {
-                transform: translateY(100vh) rotate(0deg);
+                transform: translateY(-100px);
                 opacity: 0;
             }
             10% {
                 opacity: 0.5;
             }
-            90% {
-                opacity: 0.5;
+            80% {
+                opacity: 0.3;
             }
             100% {
-                transform: translateY(-100vh) rotate(360deg);
+                transform: translateY(100vh);
                 opacity: 0;
-            }
-        }
-
-        .light-rays {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 100px,
-                rgba(255, 255, 255, 0.02) 100px,
-                rgba(255, 255, 255, 0.02) 200px
-            );
-            animation: moveRays 30s linear infinite;
-        }
-
-        @keyframes moveRays {
-            0% {
-                transform: translateX(-100%) translateY(-100%);
-            }
-            100% {
-                transform: translateX(100%) translateY(100%);
             }
         }
 
@@ -160,7 +99,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
+            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
             z-index: -1;
         }
 
@@ -195,6 +134,7 @@
             z-index: 2;
         }
 
+        /* Хедер */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -215,18 +155,30 @@
             letter-spacing: -2px;
             margin-bottom: 1rem;
             text-transform: uppercase;
-            animation: fadeInUp 1s ease;
             text-shadow: 0 0 30px rgba(255,255,255,0.3);
         }
 
-        .hero-content .subtitle {
+        .typing-text {
             font-size: 1.2rem;
             color: #dddddd;
             margin-bottom: 2rem;
-            letter-spacing: 3px;
-            animation: fadeInUp 1s ease 0.2s forwards;
-            opacity: 0;
-            animation-fill-mode: forwards;
+            letter-spacing: 2px;
+            min-height: 3rem;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 1.2rem;
+            background-color: #ffffff;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         .hero-badge {
@@ -237,9 +189,6 @@
             font-size: 0.8rem;
             letter-spacing: 2px;
             transition: all 0.3s;
-            animation: fadeInUp 1s ease 0.4s forwards;
-            opacity: 0;
-            animation-fill-mode: forwards;
             background: transparent;
         }
 
@@ -414,6 +363,20 @@
             }
         }
 
+        .hero-content h1, .typing-text, .hero-badge {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge {
+            opacity: 0;
+        }
+
+        .hero-badge:nth-child(1) { animation-delay: 0.6s; }
+        .hero-badge:nth-child(2) { animation-delay: 0.8s; }
+        .hero-badge:nth-child(3) { animation-delay: 1.0s; }
+        .hero-badge:nth-child(4) { animation-delay: 1.2s; }
+        .hero-badge:nth-child(5) { animation-delay: 1.4s; }
+
         .profile-card, .project-card {
             animation: fadeIn 0.6s ease-out;
         }
@@ -440,9 +403,8 @@
                 font-size: 2.5rem;
             }
             
-            .hero-content .subtitle {
-                font-size: 0.8rem;
-                letter-spacing: 2px;
+            .typing-text {
+                font-size: 0.9rem;
             }
             
             h2 {
@@ -466,17 +428,8 @@
     </style>
 </head>
 <body>
-
-    <div class="animated-bg">
-
-        <div class="grid-lines"></div>
-        
-        <div class="floating-dots" id="floatingDots"></div>
-
-        <div class="pulse-circles" id="pulseCircles"></div>
-        
-        <div class="light-rays"></div>
-    </div>
+    <div class="data-rain-bg" id="dataRainBg"></div>
+    <div class="falling-digits" id="fallingDigits"></div>
     <div class="bg-overlay"></div>
 
     <div class="cursor"></div>
@@ -485,7 +438,9 @@
         <div class="hero">
             <div class="hero-content">
                 <h1>ДЬЯКОНОВ<br>АРСЕНИЙ</h1>
-                <div class="subtitle">DEVELOPER // PROGRAMMER // CREATOR</div>
+                <div class="typing-text">
+                    <span id="typedText"></span><span class="cursor-blink"></span>
+                </div>
                 <div>
                     <span class="hero-badge">PYTHON</span>
                     <span class="hero-badge">C#</span>
@@ -592,34 +547,80 @@
         </div>
 
         <div class="footer">
-            ARSENIY DIAKONOV // 2026 // DARKCORE
+            ARSENIY DIAKONOV // 2024 // DARKCORE
         </div>
     </div>
 
     <script>
-        const dotsContainer = document.getElementById('floatingDots');
-        for (let i = 0; i < 100; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.style.left = Math.random() * 100 + '%';
-            dot.style.animationDelay = Math.random() * 30 + 's';
-            dot.style.animationDuration = 15 + Math.random() * 20 + 's';
-            dotsContainer.appendChild(dot);
+        const rainContainer = document.getElementById('dataRainBg');
+
+        for (let i = 0; i < 80; i++) {
+            const line = document.createElement('div');
+            line.classList.add('data-line');
+            line.style.left = Math.random() * 100 + '%';
+            line.style.animationDuration = 2 + Math.random() * 4 + 's';
+            line.style.animationDelay = Math.random() * 5 + 's';
+            line.style.height = 40 + Math.random() * 80 + 'px';
+            line.style.width = 1 + Math.random() * 2 + 'px';
+            rainContainer.appendChild(line);
+        }
+        
+        const digitsContainer = document.getElementById('fallingDigits');
+        const chars = ['0', '1', '0', '1', '1', '0', '1', '0', '1', '1', '0', '1', '|', '/', '\\', '-', '_', '=', '+'];
+        
+        for (let i = 0; i < 150; i++) {
+            const digit = document.createElement('div');
+            digit.classList.add('digit');
+            digit.style.left = Math.random() * 100 + '%';
+            digit.style.animationDuration = 5 + Math.random() * 8 + 's';
+            digit.style.animationDelay = Math.random() * 10 + 's';
+            digit.style.fontSize = 10 + Math.random() * 12 + 'px';
+            digit.style.opacity = 0.1 + Math.random() * 0.3;
+            digit.textContent = chars[Math.floor(Math.random() * chars.length)];
+            digitsContainer.appendChild(digit);
         }
 
-        const circlesContainer = document.getElementById('pulseCircles');
-        for (let i = 0; i < 8; i++) {
-            const circle = document.createElement('div');
-            circle.classList.add('circle');
-            const size = 100 + Math.random() * 200;
-            circle.style.width = size + 'px';
-            circle.style.height = size + 'px';
-            circle.style.left = Math.random() * 100 + '%';
-            circle.style.top = Math.random() * 100 + '%';
-            circle.style.animationDelay = Math.random() * 8 + 's';
-            circle.style.animationDuration = 6 + Math.random() * 4 + 's';
-            circlesContainer.appendChild(circle);
+        const texts = [
+            "DEVELOPER // PROGRAMMER // CREATOR",
+            "PYTHON // C# // C++ // FLASK // SQL",
+            "DARKCORE // MINIMALIST // CODE",
+            "> CREATE > INNOVATE > EVOLVE <"
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typedTextElement = document.getElementById('typedText');
+        
+        function typeEffect() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typedTextElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 3000);
+                return;
+            }
+            
+            if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(typeEffect, 500);
+                return;
+            }
+            
+            const speed = isDeleting ? 50 : 100;
+            setTimeout(typeEffect, speed);
         }
+        
+        typeEffect();
 
         const cursor = document.querySelector('.cursor');
         const trailElements = [];
