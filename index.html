@@ -9,6 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none;
         }
 
         body {
@@ -19,12 +20,29 @@
             overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            position: relative;
-            z-index: 2;
+        /* ========== КАСТОМНЫЙ КУРСОР ========== */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.6;
+            transition: opacity 0.2s;
         }
 
         /* ========== ВИДЕО-СЛАЙДЕР ========== */
@@ -62,7 +80,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%) brightness(0.4);
+            filter: grayscale(100%) brightness(0.35) contrast(1.2);
         }
 
         .slide-overlay {
@@ -71,7 +89,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%);
+            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
             z-index: 3;
         }
 
@@ -87,19 +105,20 @@
         }
 
         .hero-content h1 {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 800;
             letter-spacing: -2px;
             margin-bottom: 1rem;
             text-transform: uppercase;
             animation: fadeInUp 1s ease;
+            text-shadow: 0 0 30px rgba(255,255,255,0.3);
         }
 
         .hero-content .subtitle {
             font-size: 1.2rem;
-            color: #cccccc;
+            color: #dddddd;
             margin-bottom: 2rem;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
             animation-fill-mode: forwards;
@@ -111,17 +130,19 @@
             padding: 0.5rem 1.5rem;
             margin: 0.5rem;
             font-size: 0.8rem;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: all 0.3s;
             animation: fadeInUp 1s ease 0.4s forwards;
             opacity: 0;
             animation-fill-mode: forwards;
+            background: transparent;
         }
 
         .hero-content .badge:hover {
             background: #ffffff;
             color: #000000;
             transform: scale(1.05);
+            cursor: pointer;
         }
 
         .slider-controls {
@@ -149,7 +170,42 @@
             border-radius: 5px;
         }
 
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 1rem;
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .slider-arrow:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: #ffffff;
+        }
+
+        .slider-arrow.prev {
+            left: 2rem;
+        }
+
+        .slider-arrow.next {
+            right: 2rem;
+        }
+
         /* ========== ОСНОВНОЙ КОНТЕНТ ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
         .profile-card {
             background: #0a0a0a;
             border: 1px solid #1a1a1a;
@@ -193,6 +249,7 @@
             background: #ffffff;
             color: #000000;
             border-color: #ffffff;
+            transform: translateX(3px);
         }
 
         .contacts {
@@ -290,6 +347,7 @@
             background: #ffffff;
             color: #000000;
             border-color: #ffffff;
+            transform: translateX(5px);
         }
 
         /* Анимации */
@@ -338,11 +396,12 @@
         /* Адаптивность */
         @media (max-width: 768px) {
             .hero-content h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .hero-content .subtitle {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
+                letter-spacing: 2px;
             }
             
             h2 {
@@ -351,6 +410,19 @@
             
             .profile-card {
                 padding: 1.5rem;
+            }
+            
+            .slider-arrow {
+                padding: 0.5rem;
+                font-size: 1rem;
+            }
+            
+            .slider-arrow.prev {
+                left: 0.5rem;
+            }
+            
+            .slider-arrow.next {
+                right: 0.5rem;
             }
         }
 
@@ -362,32 +434,42 @@
             border-top: 1px solid #1a1a1a;
             color: #666666;
             font-size: 0.8rem;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
+    <!-- КАСТОМНЫЙ КУРСОР -->
+    <div class="cursor"></div>
+    
     <!-- ВИДЕО-СЛАЙДЕР -->
     <div class="hero-slider">
         <div class="slider-container">
-            <!-- Слайд 1 -->
+            <!-- Слайд 1 - Космическая тематика -->
             <div class="slide active" data-slide="0">
                 <video autoplay muted loop playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-programming-code-on-a-dark-screen-24898-large.mp4" type="video/mp4">
+                    <source src="https://cdn.pixabay.com/video/2023/07/05/171552-841804715_large.mp4" type="video/mp4">
                 </video>
                 <div class="slide-overlay"></div>
             </div>
-            <!-- Слайд 2 -->
+            <!-- Слайд 2 - Цифровой поток -->
             <div class="slide" data-slide="1">
                 <video autoplay muted loop playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-typing-code-on-computer-keyboard-24896-large.mp4" type="video/mp4">
+                    <source src="https://cdn.pixabay.com/video/2021/09/21/90439-607837171_large.mp4" type="video/mp4">
                 </video>
                 <div class="slide-overlay"></div>
             </div>
-            <!-- Слайд 3 -->
+            <!-- Слайд 3 - Абстрактная линия -->
             <div class="slide" data-slide="2">
                 <video autoplay muted loop playsinline>
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-code-on-a-dark-screen-24900-large.mp4" type="video/mp4">
+                    <source src="https://cdn.pixabay.com/video/2022/03/14/111030-689614704_large.mp4" type="video/mp4">
+                </video>
+                <div class="slide-overlay"></div>
+            </div>
+            <!-- Слайд 4 - Технологичный фон -->
+            <div class="slide" data-slide="3">
+                <video autoplay muted loop playsinline>
+                    <source src="https://cdn.pixabay.com/video/2020/10/23/52739-473294857_large.mp4" type="video/mp4">
                 </video>
                 <div class="slide-overlay"></div>
             </div>
@@ -404,10 +486,14 @@
                 </div>
             </div>
             
+            <div class="slider-arrow prev" id="prevSlide">←</div>
+            <div class="slider-arrow next" id="nextSlide">→</div>
+            
             <div class="slider-controls">
                 <div class="slider-dot active" data-slide="0"></div>
                 <div class="slider-dot" data-slide="1"></div>
                 <div class="slider-dot" data-slide="2"></div>
+                <div class="slider-dot" data-slide="3"></div>
             </div>
         </div>
     </div>
@@ -418,7 +504,7 @@
             <h2># О СЕБЕ</h2>
             <p style="color: #cccccc; line-height: 1.8; margin-bottom: 1rem;">
                 Начинающий программист, увлечённый созданием эффективных и эстетичных решений. 
-                Постоянно развиваюсь и изучаю новые технологии.
+                Постоянно развиваюсь и изучаю новые технологии. Фокус на веб-разработку и десктопные приложения.
             </p>
             
             <div class="badge-container">
@@ -511,27 +597,88 @@
         </div>
 
         <div class="footer">
-            ARSENIY DIAKONOV // 2024 // DARKCORE
+            ARSENIY DIAKONOV // 2026 // DARKCORE
         </div>
     </div>
 
     <script>
-        // Слайдер для видео
+        // ========== КАСТОМНЫЙ КУРСОР С ЛИНИЕЙ ==========
+        const cursor = document.querySelector('.cursor');
+        const trailElements = [];
+        const trailCount = 15;
+        
+        // Создаём следы
+        for (let i = 0; i < trailCount; i++) {
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            document.body.appendChild(trail);
+            trailElements.push({ element: trail, x: 0, y: 0 });
+        }
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Основной курсор
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+        
+        // Анимация следов
+        function updateTrails() {
+            cursorX = mouseX;
+            cursorY = mouseY;
+            
+            trailElements.forEach((trail, index) => {
+                setTimeout(() => {
+                    trail.element.style.left = cursorX + 'px';
+                    trail.element.style.top = cursorY + 'px';
+                    
+                    // Эффект затухания
+                    const opacity = 0.6 - (index / trailCount) * 0.5;
+                    const size = 8 - (index / trailCount) * 4;
+                    trail.element.style.opacity = opacity;
+                    trail.element.style.width = size + 'px';
+                    trail.element.style.height = size + 'px';
+                }, index * 20);
+            });
+            
+            requestAnimationFrame(updateTrails);
+        }
+        
+        updateTrails();
+        
+        // Скрываем стандартный курсор на всех элементах
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+            el.style.cursor = 'none';
+        });
+        
+        // ========== ВИДЕО-СЛАЙДЕР ==========
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.slider-dot');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
         let currentSlide = 0;
         let slideInterval;
-
+        
         function showSlide(index) {
             slides.forEach((slide, i) => {
                 slide.classList.remove('active');
                 if (i === index) {
                     slide.classList.add('active');
-                    // Перезапускаем видео при переключении
                     const video = slide.querySelector('video');
                     if (video) {
                         video.currentTime = 0;
-                        video.play();
+                        video.play().catch(e => console.log('Автовоспроизведение заблокировано'));
+                    }
+                } else {
+                    const video = slide.querySelector('video');
+                    if (video && !video.paused) {
+                        video.pause();
                     }
                 }
             });
@@ -545,21 +692,28 @@
             
             currentSlide = index;
         }
-
+        
         function nextSlide() {
             let next = currentSlide + 1;
             if (next >= slides.length) next = 0;
             showSlide(next);
         }
-
-        function startAutoSlide() {
-            slideInterval = setInterval(nextSlide, 8000);
+        
+        function prevSlide() {
+            let prev = currentSlide - 1;
+            if (prev < 0) prev = slides.length - 1;
+            showSlide(prev);
         }
-
+        
+        function startAutoSlide() {
+            if (slideInterval) clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 7000);
+        }
+        
         function stopAutoSlide() {
             if (slideInterval) clearInterval(slideInterval);
         }
-
+        
         // Обработчики для точек навигации
         dots.forEach(dot => {
             dot.addEventListener('click', (e) => {
@@ -569,21 +723,53 @@
                 startAutoSlide();
             });
         });
-
+        
+        // Кнопки навигации
+        prevBtn.addEventListener('click', () => {
+            stopAutoSlide();
+            prevSlide();
+            startAutoSlide();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            stopAutoSlide();
+            nextSlide();
+            startAutoSlide();
+        });
+        
         // Приостанавливаем автослайд при наведении на слайдер
         const slider = document.querySelector('.hero-slider');
         slider.addEventListener('mouseenter', stopAutoSlide);
         slider.addEventListener('mouseleave', startAutoSlide);
-
+        
         // Запускаем слайдер
         startAutoSlide();
-
-        // Останавливаем видео в неактивных слайдах для производительности
+        
+        // Останавливаем видео в неактивных слайдах
         slides.forEach((slide, i) => {
             const video = slide.querySelector('video');
             if (video && i !== 0) {
                 video.pause();
             }
+        });
+        
+        // Обработка касаний для мобильных устройств
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoSlide();
+        });
+        
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            } else if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+            startAutoSlide();
         });
     </script>
 </body>
