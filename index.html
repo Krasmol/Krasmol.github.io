@@ -20,8 +20,7 @@
             background: #000000;
         }
 
-        /* ========== ФОН - ВИДЕО ЧЁРНОЙ ДЫРЫ ========== */
-        .blackhole-bg {
+        .animated-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -32,36 +31,139 @@
             background: #000000;
         }
 
-        .blackhole-bg video {
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) brightness(0.5) contrast(1.2);
+            font-family: monospace;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.15);
+            white-space: pre;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .blackhole-overlay {
+        .pulse-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .circle {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: pulse 8s infinite ease-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .floating-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .dot {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: floatDot 30s linear infinite;
+        }
+
+        @keyframes floatDot {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .light-rays {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 100px,
+                rgba(255, 255, 255, 0.02) 100px,
+                rgba(255, 255, 255, 0.02) 200px
+            );
+            animation: moveRays 30s linear infinite;
+        }
+
+        @keyframes moveRays {
+            0% {
+                transform: translateX(-100%) translateY(-100%);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%);
+            }
+        }
+
+        .bg-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+            background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
             z-index: -1;
         }
 
-        /* Fallback если видео не загрузилось */
-        .no-video-fallback {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, #111 0%, #000 100%);
-            z-index: -3;
-        }
-
-        /* ========== КАСТОМНЫЙ КУРСОР ========== */
         .cursor {
             position: fixed;
             width: 24px;
@@ -85,7 +187,6 @@
             opacity: 0.6;
         }
 
-        /* ========== ОСНОВНОЙ КОНТЕНТ ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -149,7 +250,6 @@
             transform: scale(1.05);
         }
 
-        /* Карточка профиля */
         .profile-card {
             background: rgba(10, 10, 10, 0.85);
             backdrop-filter: blur(10px);
@@ -223,7 +323,6 @@
             color: #aaaaaa;
         }
 
-        /* Проекты */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -321,7 +420,6 @@
             animation: fadeIn 0.6s ease-out;
         }
 
-        /* Скроллбар */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -339,7 +437,6 @@
             background: #555555;
         }
 
-        /* Адаптивность */
         @media (max-width: 768px) {
             .hero-content h1 {
                 font-size: 2.5rem;
@@ -359,7 +456,6 @@
             }
         }
 
-        /* Футер */
         .footer {
             text-align: center;
             padding: 3rem 1rem;
@@ -372,22 +468,22 @@
     </style>
 </head>
 <body>
-    <!-- ФОН - ВИДЕО ЧЁРНОЙ ДЫРЫ (несколько источников для надёжности) -->
-    <div class="blackhole-bg">
-        <video autoplay muted loop playsinline id="bgVideo">
-            <!-- Несколько источников видео для надёжности -->
-            <source src="https://videos.pexels.com/video-files/3129672/3129672-uhd_2560_1440_25fps.mp4" type="video/mp4">
-            <source src="https://cdn.pixabay.com/video/2023/07/05/171552-841804715_large.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="blackhole-overlay"></div>
-    <div class="no-video-fallback"></div>
 
-    <!-- КАСТОМНЫЙ КУРСОР -->
+    <div class="animated-bg">
+
+        <div class="grid-lines"></div>
+        
+        <div class="floating-dots" id="floatingDots"></div>
+
+        <div class="pulse-circles" id="pulseCircles"></div>
+        
+        <div class="light-rays"></div>
+    </div>
+    <div class="bg-overlay"></div>
+
     <div class="cursor"></div>
 
     <div class="container">
-        <!-- Хедер -->
         <div class="hero">
             <div class="hero-content">
                 <h1>ДЬЯКОНОВ<br>АРСЕНИЙ</h1>
@@ -402,7 +498,6 @@
             </div>
         </div>
 
-        <!-- Профиль -->
         <div class="profile-card">
             <h2># О СЕБЕ</h2>
             <p style="color: #cccccc; line-height: 1.8; margin-bottom: 1rem;">
@@ -435,7 +530,6 @@
             </div>
         </div>
 
-        <!-- Проекты -->
         <h2># ПРОЕКТЫ</h2>
         <div class="projects-grid">
             <div class="project-card">
@@ -505,41 +599,57 @@
     </div>
 
     <script>
-        // ========== КАСТОМНЫЙ КУРСОР СО СЛЕДАМИ ==========
+        const dotsContainer = document.getElementById('floatingDots');
+        for (let i = 0; i < 100; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.style.left = Math.random() * 100 + '%';
+            dot.style.animationDelay = Math.random() * 30 + 's';
+            dot.style.animationDuration = 15 + Math.random() * 20 + 's';
+            dotsContainer.appendChild(dot);
+        }
+
+        const circlesContainer = document.getElementById('pulseCircles');
+        for (let i = 0; i < 8; i++) {
+            const circle = document.createElement('div');
+            circle.classList.add('circle');
+            const size = 100 + Math.random() * 200;
+            circle.style.width = size + 'px';
+            circle.style.height = size + 'px';
+            circle.style.left = Math.random() * 100 + '%';
+            circle.style.top = Math.random() * 100 + '%';
+            circle.style.animationDelay = Math.random() * 8 + 's';
+            circle.style.animationDuration = 6 + Math.random() * 4 + 's';
+            circlesContainer.appendChild(circle);
+        }
+
         const cursor = document.querySelector('.cursor');
         const trailElements = [];
         const trailCount = 12;
         
-        // Создаём следы
         for (let i = 0; i < trailCount; i++) {
             const trail = document.createElement('div');
             trail.classList.add('cursor-trail');
             document.body.appendChild(trail);
-            trailElements.push({ element: trail, x: 0, y: 0 });
+            trailElements.push({ element: trail });
         }
         
         let mouseX = 0, mouseY = 0;
+        let trailPositions = Array(trailCount).fill().map(() => ({ x: 0, y: 0 }));
         
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
         });
-        
-        // Анимация следов
-        let trailPositions = [];
-        for (let i = 0; i < trailCount; i++) {
-            trailPositions.push({ x: 0, y: 0 });
-        }
         
         function updateTrails() {
             trailPositions.unshift({ x: mouseX, y: mouseY });
             trailPositions.pop();
             
             trailElements.forEach((trail, index) => {
-                const pos = trailPositions[index] || trailPositions[trailPositions.length - 1];
+                const pos = trailPositions[index];
                 if (pos && pos.x && pos.y) {
                     trail.element.style.left = pos.x + 'px';
                     trail.element.style.top = pos.y + 'px';
@@ -556,13 +666,11 @@
         
         updateTrails();
         
-        // Скрываем стандартный курсор
         const allElements = document.querySelectorAll('*');
         allElements.forEach(el => {
             el.style.cursor = 'none';
         });
         
-        // Обработка выхода мыши за пределы окна
         document.addEventListener('mouseleave', () => {
             cursor.style.opacity = '0';
             trailElements.forEach(trail => {
@@ -576,15 +684,6 @@
                 trail.element.style.opacity = '0.6';
             });
         });
-        
-        // Принудительное воспроизведение видео
-        const bgVideo = document.getElementById('bgVideo');
-        if (bgVideo) {
-            bgVideo.play().catch(e => {
-                console.log('Автовоспроизведение заблокировано, добавляем fallback');
-                document.querySelector('.no-video-fallback').style.display = 'block';
-            });
-        }
     </script>
 </body>
 </html>
