@@ -50,15 +50,6 @@
 
 ---
 
-## Статистика
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=krasmol&show_icons=true&theme=dark&hide_border=true&bg_color=000000&title_color=ffffff&icon_color=ffffff&text_color=888888" width="48%" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=krasmol&layout=compact&theme=dark&hide_border=true&bg_color=000000&title_color=ffffff&text_color=888888" width="48%" />
-</div>
-
----
-
 ## Контакты
 
 - **GitHub:** [github.com/krasmol](https://github.com/krasmol)
